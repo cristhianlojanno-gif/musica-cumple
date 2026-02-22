@@ -401,20 +401,21 @@ window.addEventListener( 'resize', function(){
 	
 	ctx.font = opts.charSize + 'px Verdana';
 })
-var musica = document.getElementById("musica");
+var bgMusic = document.getElementById("bgMusic");
+var musicStarted = false;
 
-function iniciarMusica() {
-
-    musica.play().then(() => {
-        console.log("Música iniciada");
-    }).catch((e) => {
-        console.log("El navegador bloqueó el autoplay:", e);
-    });
-
-    document.removeEventListener("click", iniciarMusica);
-    document.removeEventListener("touchstart", iniciarMusica);
+function startMusic() {
+    if (!musicStarted) {
+        bgMusic.volume = 0.7; // volumen 70%
+        bgMusic.play().catch(function(e) {
+            console.log("Autoplay bloqueado:", e);
+        });
+        musicStarted = true;
+    }
 }
 
-// Detecta cualquier interacción
-document.addEventListener("click", iniciarMusica);
-document.addEventListener("touchstart", iniciarMusica);
+// Celular
+document.addEventListener("touchstart", startMusic, { once: true });
+
+// PC
+document.addEventListener("click", startMusic, { once: true });

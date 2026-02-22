@@ -1,30 +1,27 @@
+// ================== MÚSICA PARA GITHUB ==================
+var c = document.getElementById('c');
 var bgMusic = document.getElementById("bgMusic");
 var musicStarted = false;
 
 function startMusic() {
     if (musicStarted) return;
 
+    musicStarted = true;
     bgMusic.volume = 0.9;
 
-    // Forzamos carga
-    bgMusic.load();
+    var promise = bgMusic.play();
 
-    var playPromise = bgMusic.play();
-
-    if (playPromise !== undefined) {
-        playPromise.then(function() {
-            musicStarted = true;
-            console.log("Música iniciada");
-        }).catch(function(error) {
-            console.log("Error al reproducir:", error);
+    if (promise !== undefined) {
+        promise.catch(function(error) {
+            console.log("Reproducción bloqueada:", error);
         });
     }
 }
 
-// Eventos más compatibles en Android
-document.body.addEventListener("touchstart", startMusic);
-document.body.addEventListener("touchend", startMusic);
-document.body.addEventListener("click", startMusic);
+// Compatible con Android y PC
+window.addEventListener("click", startMusic, { once: true });
+window.addEventListener("touchstart", startMusic, { once: true });
+// =========================================================
 var w = c.width = window.innerWidth,
 		h = c.height = window.innerHeight,
 		ctx = c.getContext( '2d' ),
@@ -427,21 +424,4 @@ window.addEventListener( 'resize', function(){
 	
 	ctx.font = opts.charSize + 'px Verdana';
 })
-var bgMusic = document.getElementById("bgMusic");
-var musicStarted = false;
 
-function startMusic() {
-    if (!musicStarted) {
-        bgMusic.volume = 0.7; // volumen 70%
-        bgMusic.play().catch(function(e) {
-            console.log("Autoplay bloqueado:", e);
-        });
-        musicStarted = true;
-    }
-}
-
-// Celular
-document.addEventListener("touchstart", startMusic, { once: true });
-
-// PC
-document.addEventListener("click", startMusic, { once: true });

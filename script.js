@@ -1,4 +1,30 @@
+var bgMusic = document.getElementById("bgMusic");
+var musicStarted = false;
 
+function startMusic() {
+    if (musicStarted) return;
+
+    bgMusic.volume = 0.9;
+
+    // Forzamos carga
+    bgMusic.load();
+
+    var playPromise = bgMusic.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(function() {
+            musicStarted = true;
+            console.log("Música iniciada");
+        }).catch(function(error) {
+            console.log("Error al reproducir:", error);
+        });
+    }
+}
+
+// Eventos más compatibles en Android
+document.body.addEventListener("touchstart", startMusic);
+document.body.addEventListener("touchend", startMusic);
+document.body.addEventListener("click", startMusic);
 var w = c.width = window.innerWidth,
 		h = c.height = window.innerHeight,
 		ctx = c.getContext( '2d' ),

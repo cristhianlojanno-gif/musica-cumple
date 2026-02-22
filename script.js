@@ -401,19 +401,20 @@ window.addEventListener( 'resize', function(){
 	
 	ctx.font = opts.charSize + 'px Verdana';
 })
-var musica = new Audio("https://raw.githubusercontent.com/cristhianlojanno-gif/musica-cumple/main/ssstik.io_1771767144979.mp3");
-musica.loop = true;
-musica.volume = 0.6;
+var musica = document.getElementById("musica");
 
-// Se activa con el primer clic en cualquier parte
 function iniciarMusica() {
-    musica.play().catch(function(e){
-        console.log("No se pudo reproducir:", e);
+
+    musica.play().then(() => {
+        console.log("Música iniciada");
+    }).catch((e) => {
+        console.log("El navegador bloqueó el autoplay:", e);
     });
 
     document.removeEventListener("click", iniciarMusica);
     document.removeEventListener("touchstart", iniciarMusica);
 }
 
+// Detecta cualquier interacción
 document.addEventListener("click", iniciarMusica);
 document.addEventListener("touchstart", iniciarMusica);
